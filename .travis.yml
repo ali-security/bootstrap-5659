@@ -19,7 +19,7 @@ before_install:
   - echo "$TRAVIS_COMMIT_MSG" | grep '\[skip browserstack\]'; export TWBS_DO_BROWSERSTACK=$?; true
 install:
   - bundle install --deployment --jobs=3 --retry=3 --clean
-  - npm ci
+  - npm install
 cache:
   directories:
     - node_modules
