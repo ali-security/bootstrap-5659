@@ -125,9 +125,7 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
-        compress: {
-          global_defs: { DOMImplementation: 'Object' }
-        },
+        compress: true,
         mangle: true,
         ie8: true,
         output: {
