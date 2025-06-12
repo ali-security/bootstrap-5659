@@ -7,15 +7,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
-if (typeof DOMImplementation === 'undefined') {
-    // This polyfill provides a dummy DOMImplementation constructor
-    // specifically for environments (like Node.js during build)
-    // where it's not defined, preventing a ReferenceError.
-    // In actual browser environments, this 'if' block will be skipped
-    // because DOMImplementation will already be defined globally.
-    var DOMImplementation = function() {};
-}
-
 +function ($) {
   'use strict';
 
@@ -108,7 +99,6 @@ if (typeof DOMImplementation === 'undefined') {
   }
 
   function sanitizeHtml(unsafeHtml, whiteList, sanitizeFn) {
-    var doc = null
     if (unsafeHtml.length === 0) {
       return unsafeHtml
     }
@@ -117,22 +107,16 @@ if (typeof DOMImplementation === 'undefined') {
       return sanitizeFn(unsafeHtml)
     }
 
-    try {
-        doc = new DOMParser().parseFromString(unsafeHtml, 'text/html');
-    } catch (_) {}
-    if (!doc || !doc.documentElement) {
-      // IE 8 and below don't support createHTMLDocument
-      if (!document.implementation || !(document.implementation instanceof DOMImplementation) || document.implementation.createHTMLDocument === undefined) {
-        throw new Error('Could not sanitize CVE-2025-1647');
-      }
-      doc = document.implementation.createHTMLDocument('sanitization')
-      doc.body.innerHTML = unsafeHtml
+    // IE 8 and below don't support createHTMLDocument
+    if (!document.implementation || !document.implementation.createHTMLDocument) {
+      return unsafeHtml
     }
 
-    var body = doc.body || doc.documentElement;
+    var createdDocument = document.implementation.createHTMLDocument('sanitization')
+    createdDocument.body.innerHTML = unsafeHtml
 
     var whitelistKeys = $.map(whiteList, function (el, i) { return i })
-    var elements = $(body).find('*')
+    var elements = $(createdDocument.body).find('*')
 
     for (var i = 0, len = elements.length; i < len; i++) {
       var el = elements[i]
@@ -154,7 +138,7 @@ if (typeof DOMImplementation === 'undefined') {
       }
     }
 
-    return body.innerHTML
+    return createdDocument.body.innerHTML
   }
 
   // TOOLTIP PUBLIC CLASS DEFINITION
