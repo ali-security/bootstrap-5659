@@ -9,6 +9,11 @@ env:
     - TWBS_TEST=validate-html
     - TWBS_TEST=browserstack
 before_install:
+  # --- FIX FOR RUBY/BUNDLER INCOMPATIBILITY
+  - source /home/travis/.rvm/scripts/rvm || true 
+  - rvm use 2.6.10 --install --default
+  - gem install bundler -v 1.17.3 --no-document --no-user-install
+
   - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B --no-merges -n 1)\""
   - echo "$TRAVIS_COMMIT_MSG" | grep '\[skip validator\]'; export TWBS_DO_VALIDATOR=$?; true
   - echo "$TRAVIS_COMMIT_MSG" | grep '\[skip browserstack\]'; export TWBS_DO_BROWSERSTACK=$?; true
