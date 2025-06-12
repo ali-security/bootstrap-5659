@@ -20,7 +20,6 @@ before_install:
 install:
   - bundle install --deployment --jobs=3 --retry=3 --clean
   - npm install
-  - grunt dist
 cache:
   directories:
     - node_modules
