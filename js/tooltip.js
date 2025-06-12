@@ -99,7 +99,7 @@
   }
 
   function sanitizeHtml(unsafeHtml, whiteList, sanitizeFn) {
-    let doc = null
+    var doc = null
     if (unsafeHtml.length === 0) {
       return unsafeHtml
     }
@@ -120,7 +120,7 @@
       doc.body.innerHTML = unsafeHtml
     }
 
-    const body = doc.body || doc.documentElement;
+    var body = doc.body || doc.documentElement;
 
     var whitelistKeys = $.map(whiteList, function (el, i) { return i })
     var elements = $(createdDocument.body).find('*')
@@ -145,7 +145,7 @@
       }
     }
 
-    return body.innerHTML
+    return createdDocument.body.innerHTML
   }
 
   // TOOLTIP PUBLIC CLASS DEFINITION
