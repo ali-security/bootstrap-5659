@@ -199,15 +199,6 @@ if (typeof jQuery === 'undefined') {
     loadingText: 'loading...'
   }
 
-  Button.prototype.sanitize = function (unsafeText) {
-    return unsafeText
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
   Button.prototype.setState = function (state) {
     var d    = 'disabled'
     var $el  = this.$element
@@ -220,7 +211,7 @@ if (typeof jQuery === 'undefined') {
 
     // push to event loop to allow forms to submit
     setTimeout($.proxy(function () {
-      $el[val](data[state] == null ? this.options[state] : this.sanitize(data[state]))
+      $el[val](data[state] == null ? this.options[state] : data[state])
 
       if (state == 'loadingText') {
         this.isLoading = true
@@ -526,7 +517,7 @@ if (typeof jQuery === 'undefined') {
     var target  = $this.attr('data-target') || href
     var $target = $(document).find(target)
 
-    if (!$target.hasClass('carousel')) return false;
+    if (!$target.hasClass('carousel')) return
 
     var options = $.extend({}, $target.data(), $this.data())
     var slideIndex = $this.attr('data-slide-to')
@@ -1393,7 +1384,6 @@ if (typeof jQuery === 'undefined') {
   }
 
   function sanitizeHtml(unsafeHtml, whiteList, sanitizeFn) {
-    let doc = null
     if (unsafeHtml.length === 0) {
       return unsafeHtml
     }
@@ -1402,19 +1392,13 @@ if (typeof jQuery === 'undefined') {
       return sanitizeFn(unsafeHtml)
     }
 
-    try {
-        doc = new DOMParser().parseFromString(unsafeHtml, 'text/html');
-    } catch (_) {}
-    if (!doc || !doc.documentElement) {
-      // IE 8 and below don't support createHTMLDocument
-      if (!document.implementation || !(document.implementation instanceof DOMImplementation) || document.implementation.createHTMLDocument === undefined) {
-        throw new Error('Could not sanitize CVE-2025-1647');
-      }
-      doc = document.implementation.createHTMLDocument('sanitization')
-      doc.body.innerHTML = unsafeHtml
+    // IE 8 and below don't support createHTMLDocument
+    if (!document.implementation || !document.implementation.createHTMLDocument) {
+      return unsafeHtml
     }
 
-    const body = doc.body || doc.documentElement;
+    var createdDocument = document.implementation.createHTMLDocument('sanitization')
+    createdDocument.body.innerHTML = unsafeHtml
 
     var whitelistKeys = $.map(whiteList, function (el, i) { return i })
     var elements = $(createdDocument.body).find('*')
@@ -1439,7 +1423,7 @@ if (typeof jQuery === 'undefined') {
       }
     }
 
-    return body.innerHTML
+    return createdDocument.body.innerHTML
   }
 
   // TOOLTIP PUBLIC CLASS DEFINITION
