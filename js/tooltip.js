@@ -7,6 +7,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
+if (typeof DOMImplementation === 'undefined') {
+    // This polyfill provides a dummy DOMImplementation constructor
+    // specifically for environments (like Node.js during build)
+    // where it's not defined, preventing a ReferenceError.
+    // In actual browser environments, this 'if' block will be skipped
+    // because DOMImplementation will already be defined globally.
+    var DOMImplementation = function() {};
+}
+
 +function ($) {
   'use strict';
 
