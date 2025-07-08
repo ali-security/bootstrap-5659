@@ -29,5 +29,23 @@ cache:
   directories:
     - node_modules
     - vendor/bundle
+
+script:
+  - npm run release
+  - ls
+deploy:
+  provider: releases
+  api_key:
+    secure: "$GITHUB_TOKEN" # Your encrypted GitHub PAT. Store securely in Travis CI settings.
+  file: bootstrap-dist-v${TRAVIS_TAG:-$(npm pkg get version | tr -d '"')}.zip # Matches the zip created by 'npm run release-zip'
+  skip_cleanup: true # Important: Prevents Travis from deleting the artifact before deployment
+  on:
+    tags: true # Deploy only when a Git tag is pushed
+    # branch: main # Optional: Deploy also on 'main' branch builds (e.g., for nightly/snapshot builds)
+    # repo: twbs/bootstrap # Optional: Specify the repo if it's different from the current one
+  name: "Build Artifacts ${{ TRAVIS_TAG }}" # Release name on GitHub
+  body: "Automated build artifacts for tag ${{ TRAVIS_TAG }}" # Release description
+# --- End Deploy Stage ---
+
 notifications:
   email: false
