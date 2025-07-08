@@ -3,6 +3,11 @@ git:
   depth: 3
 node_js:
   - "6"
+
+# --- CRITICAL FIX: Ensure Chrome for Headless Tests is installed ---
+addons:
+  chrome: stable # This tells Travis CI to install a stable version of Google Chrome
+
 env:
   matrix:
     - TWBS_TEST=core
