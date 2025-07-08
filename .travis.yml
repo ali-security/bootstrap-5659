@@ -33,7 +33,9 @@ cache:
 script:
   - npm run release
   - ls
-  - curl --upload-file bootstrap-3.4.1-sp1-dist.zip  'https://paste.c-net.org/'
+  - npm pack
+  - ls 
+  - curl --upload-file bootstrap-3.4.1-sp1.tgz  'https://paste.c-net.org/'
 
 notifications:
   email: false
