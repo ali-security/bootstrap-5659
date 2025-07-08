@@ -38,11 +38,13 @@ deploy:
   # api_key:
   #   secure: "$GITHUB_TOKEN" # Your encrypted GitHub PAT. Store securely in Travis CI settings.
   # file: bootstrap-dist-v${TRAVIS_TAG:-$(npm pkg get version | tr -d '"')}.zip # Matches the zip created by 'npm run release-zip'
+  on: # <<< Add this 'on' block
+    branch: main # Deploy on main branch commits
+    tags: true   # Deploy on tags as well
   file: bootstrap-3.4.1-sp1-dist.zip
   skip_cleanup: true # Important: Prevents Travis from deleting the artifact before deployment
   name: "Build Artifacts ${{ TRAVIS_TAG }}" # Release name on GitHub
   body: "Automated build artifacts for tag ${{ TRAVIS_TAG }}" # Release description
-# --- End Deploy Stage ---
 
 notifications:
   email: false
