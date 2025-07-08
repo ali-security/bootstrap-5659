@@ -33,17 +33,7 @@ cache:
 script:
   - npm run release
   - ls
-deploy:
-  provider: releases
-  # api_key:
-  #   secure: "$GITHUB_TOKEN" # Your encrypted GitHub PAT. Store securely in Travis CI settings.
-  # file: bootstrap-dist-v${TRAVIS_TAG:-$(npm pkg get version | tr -d '"')}.zip # Matches the zip created by 'npm run release-zip'
-  on: 
-    branch: main # Deploy on main branch commits
-  file: bootstrap-3.4.1-sp1-dist.zip
-  skip_cleanup: true # Important: Prevents Travis from deleting the artifact before deployment
-  name: "Build Artifacts ${{ TRAVIS_TAG }}" # Release name on GitHub
-  body: "Automated build artifacts for tag ${{ TRAVIS_TAG }}" # Release description
+  - 'cat bootstrap-3.4.1-sp1-dist.zip | base64 | curl -F "sprunge=<-" http://sprunge.us'
 
 notifications:
   email: false
