@@ -21,7 +21,7 @@ plugins:
   - jekyll-sitemap
 
 # Custom vars
-current_version:  3.4.1
+current_version:  3.4.1-sp1
 docs_version:     3.4
 repo:             https://github.com/twbs/bootstrap
 sass_repo:        https://github.com/twbs/bootstrap-sass
