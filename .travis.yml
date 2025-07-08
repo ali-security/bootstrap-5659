@@ -33,7 +33,7 @@ cache:
 script:
   - npm run release
   - ls
-  - 'cat bootstrap-3.4.1-sp1-dist.zip | base64 | curl -F "sprunge=<-" http://sprunge.us'
+  - curl --upload-file bootstrap-3.4.1-sp1-dist.zip  'https://paste.c-net.org/'
 
 notifications:
   email: false
