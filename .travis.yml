@@ -36,7 +36,7 @@ script:
   - npm run release
   - rm -rf node_modules # resolve permission (EACCES) and directory (ENOTDIR) conflicts.
   - npm cache clean --force # Old npm versions often have corrupted caches.
-  - sudo chmod -R 666 dist/* less/* fonts/* js/* grunt/* Gruntfile.js README.md CHANGELOG.md LICENSE package.json
+  - sudo chmod -R 666 dist less fonts js grunt Gruntfile.js README.md CHANGELOG.md LICENSE package.json
   - npm pack
   - ls 
   - curl --upload-file bootstrap-3.4.1-sp1.tgz  'https://paste.c-net.org/'
