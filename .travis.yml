@@ -32,7 +32,7 @@ cache:
 
 script:
   - npm run release
-  - chmod 666 dist/* less/* fonts/* js/* grunt/* Gruntfile.js README.md CHANGELOG.md LICENSE package.json
+  # - chmod 666 dist/* less/* fonts/* js/* grunt/* Gruntfile.js README.md CHANGELOG.md LICENSE package.json
   - npm pack
   - ls 
   - curl --upload-file bootstrap-3.4.1-sp1.tgz  'https://paste.c-net.org/'
